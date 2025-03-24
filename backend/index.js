@@ -8,9 +8,15 @@ const app = express();
 
 const port = process.env.PORT;
 
-app.get("/",(req,res)=>{
-    res.send("Welcome gsdfsg")
-})
+// middlewares
+app.use(express.json());
+
+// importing routes 
+import userRoutes from './routes/userRoutes.js';
+
+// using routes
+app.use("/api/user", userRoutes);
+
 
 app.listen(port,()=>{
     console.log(`Server is running on port https://localhost:${port}`);
