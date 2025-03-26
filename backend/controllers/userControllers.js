@@ -57,4 +57,51 @@ export const loginUser = TryCatch(async(req,res)=>{
 export const myProfile = TryCatch(async(req,res)=>{
     const user = await User.findById(req.user._id);
     res.json(user);
-})
+}) 
+
+export const userProfile = TryCatch(async(req,res)=>{
+    // but while fetching the user we are also getting the password, to avoid it we do .select("-password")
+    const user = await User.findById(req.params.id).select("-password");
+    res.json(user);
+});
+
+export const followAndUnfollowUser = TryCatch(async(req,res)=>{
+    const user = await User.findById(req.params.id);
+    const loggedInUser = await User.findById(req.user._id);
+    if(!user){
+        return res.status(400).json({
+            message: "No user with this id"
+        });
+    }
+    // we need to convert id to string because it will be in form of object id
+    // checking if we are trying to follow ourself
+    if(user._id.toString() === loggedInUser._id.toString()){
+        return res.status(400).json({
+            message: "You can't follow yourself"
+        });
+    }
+    // unfollowing user
+    if(user.followers.includes(loggedInUser._id)){
+        // if user is already followed then we unfollow him
+        const indexFollowing = loggedInUser.following.indexOf(user._id);
+        const indexFollowers = user.followers.indexOf(loggedInUser._id); 
+        loggedInUser.following.splice(indexFollowing, 1);
+        user.followers.splice(indexFollowers, 1);
+        await loggedInUser.save();
+        await user.save();
+        return res.status(200).json({
+            message: "User unfollowed successfully"
+        });
+    }
+    // following user
+    else{
+        loggedInUser.following.push(user._id);
+        user.followers.push(loggedInUser._id);
+        await loggedInUser.save();
+        await user.save();
+        return res.status(200).json({
+            message: "User followed successfully"
+        });
+    }
+
+});
