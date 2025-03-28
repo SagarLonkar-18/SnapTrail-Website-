@@ -18,17 +18,22 @@ const schema = new mongoose.Schema({
         id: String,
         url: String,
     },
-    comments:{
-        user: {
-            type:String,
-        },
-        name:{
-            type:String,
-        },
-        comment:{
-            type:String,
-        },
-    },
+    comments:[
+        {
+            user: {
+                type:String,
+                required:true
+            },
+            name:{
+                type:String,
+                required:true
+            },
+            comment:{
+                type:String,
+                required:true
+            },
+        }
+    ],
 
 },{
     timestamps: true,
