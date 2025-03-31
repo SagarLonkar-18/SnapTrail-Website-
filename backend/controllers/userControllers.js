@@ -50,7 +50,7 @@ export const loginUser = TryCatch(async(req,res)=>{
     generateToken(user._id,res);
     res.json({
         user,
-        message: "User logged in successfully"
+        message: "User logged in"
     });
 })
 
