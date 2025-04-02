@@ -6,6 +6,7 @@ import Register from './pages/Register'
 import { UserData } from './context/UserContext'
 import { Loading } from './components/Loading'
 import Navbar from './components/Navbar'
+import TrailPage from './pages/TrailPage'
 
 const App = () => {
     const {loading, isAuth, user} = UserData();
@@ -17,6 +18,7 @@ const App = () => {
                     {isAuth && <Navbar user={user} />}
                     <Routes>
                         <Route path="/" element={isAuth ? <Home /> : <Login/>} />
+                        <Route path="/trail/:id" element={isAuth ? <TrailPage/> : <Login/>} />
                         <Route path="/login" element={isAuth ? <Home /> : <Login/>} />
                         <Route path="/register" element={isAuth ? <Home /> : <Register/>} />
                     </Routes>
