@@ -18,7 +18,7 @@ const App = () => {
                     {isAuth && <Navbar user={user} />}
                     <Routes>
                         <Route path="/" element={isAuth ? <Home /> : <Login/>} />
-                        <Route path="/trail/:id" element={isAuth ? <TrailPage/> : <Login/>} />
+                        <Route path="/trail/:id" element={isAuth ? <TrailPage user={user}/> : <Login/>} />
                         <Route path="/login" element={isAuth ? <Home /> : <Login/>} />
                         <Route path="/register" element={isAuth ? <Home /> : <Register/>} />
                     </Routes>
