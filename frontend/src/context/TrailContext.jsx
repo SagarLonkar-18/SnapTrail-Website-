@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import toast from 'react-hot-toast';
 
 const TrailContext = createContext();
 
@@ -19,13 +20,7 @@ export const TrailProvider = ({children}) => {
         }
     }
 
-    useEffect(() => {
-        fetchTrails();
-    },[]);
-
     const [trail, setTrail] = useState([]);
-
-
     async function fetchTrail(id){
         setLoading(true);
         try{
@@ -39,7 +34,40 @@ export const TrailProvider = ({children}) => {
         }
     }
 
-    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail}}>
+    async function updateTrail(id, title, trail, setEdit){
+        try {
+            const {data} = await axios.put("/api/trail/"+id,{
+                title,
+                trail
+            })
+            toast.success(data.message);
+            fetchTrail(id);
+            setEdit(false);
+        } 
+        catch (error) {
+            toast.error(error.response.data.message);
+        }
+    }
+
+    async function addComment(id, comment, setComment){
+        try {
+            const {data} = await axios.post("/api/trail/comment/"+id,{
+                comment
+            });
+            toast.success(data.message);
+            fetchTrail(id);
+            setComment("");
+        } 
+        catch (error) {
+            toast.error(error.response.data.message);
+        } 
+    }
+
+    useEffect(() => {
+        fetchTrails();
+    },[]);
+
+    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail, updateTrail, addComment}}>
         {children}
     </TrailContext.Provider>
 }

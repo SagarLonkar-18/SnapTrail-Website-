@@ -8,7 +8,7 @@ import { FaEdit } from "react-icons/fa";
 const TrailPage = ({user}) => {
     const params = useParams();
 
-    const {loading, fetchTrail, trail} = TrailData();
+    const {loading, fetchTrail, trail, updateTrail, addComment} = TrailData();
     // console.log(trail);
 
     const [edit, setEdit] = useState(false);
@@ -16,7 +16,20 @@ const TrailPage = ({user}) => {
     const [trailValue, setTrailValue] = useState("");
 
     const editHandler = () => {
+        setTitle(trail.title);
+        setTrailValue(trail.trail);
         setEdit(!edit);
+    }
+
+    const updateHandler = () => {
+        updateTrail(trail._id, title, trailValue, setEdit);
+    }
+
+    const [comment, setComment] = useState("");
+
+    const submitHandler = (e) => {
+        e.preventDefault();  // make sure there is no reload
+        addComment(trail._id, comment, setComment);
     }
 
     useEffect(() => {
@@ -50,7 +63,13 @@ const TrailPage = ({user}) => {
                                     trail.owner && trail.owner._id === user._id && <button className='bg-red-500 text-white py-1 px-3 rounded'><MdDelete/></button>
                                 }
                             </div>
-                            <p className='mb-6' >{trail.trail}</p>
+                            {
+                                edit ? <input value={trailValue} onChange={e=>setTrailValue(e.target.value)} className='common-input' style={{width:"200px"}} placeholder='Enter Title' type="text" /> 
+                                : <p className='mb-6' >{trail.trail}</p>
+                            }
+                            {
+                                edit && <button style={{width:"200px"}} onClick={updateHandler} className='bg-red-500 text-white py-1 px-3 mt-2 mb-2'>Update</button>
+                            }
                             {
                                 trail.owner && 
                                 <div className='flex items-center justify-between border-b pb-4 mb-4'>
@@ -73,10 +92,36 @@ const TrailPage = ({user}) => {
                                         {trail.owner && trail.owner.name.slice(0,1)}
                                     </span>
                                 </div>
-                                <form className='flex-1 flex'>
-                                    <input type="text" className='flex-1 border rounded-lg p-2' required placeholder='Add comment' />
+                                <form className='flex-1 flex' onSubmit={submitHandler}>
+                                    <input type="text" className='flex-1 border rounded-lg p-2' required placeholder='Add comment' 
+                                    value={comment} onChange={e=>setComment(e.target.value)}/>
                                     <button type='submit' className='ml-2 bg-red-500 px-4 py-2 rounded-md text-white'>Add+</button>
                                 </form>
+                            </div>
+                            <hr className='font-bold text-gray-400 mt-3 mb-3 '/>
+                            <div className='overflow-y-auto h-60'>
+                                {
+                                    trail.comments && trail.comments.length>0 ? trail.comments.map((e,index)=>(
+                                        <div className='flex items-center justify-between mb-4'>
+                                            <div className='flex items-center mb-4 justify-center'>
+                                                <Link to={`/user/${e.user}`}>
+                                                    <div className='rounded-full h-12 w-12 bg-gray-300 flex items-center justify-center'>
+                                                        <span className='font-bold'>{e.name.slice(0,1)}</span>
+                                                    </div>
+                                                </Link>
+                                                <div className="ml-4 ">
+                                                    <div className="ml-4 ">
+                                                        <h2 className='text-lg font-semibold'>{e.name}</h2>
+                                                        <p className='text-gray-500'>{e.comment}</p>
+                                                    </div>
+                                                </div>
+                                                {
+                                                    e.user === user._id && <button className='bg-red-500 text-white py-1 px-3 rounded'><MdDelete/></button>
+                                                }
+                                            </div>
+                                        </div>
+                                    )) : <p>Be the first one to add comment</p>
+                                }
                             </div>
                         </div>
                     </div>
