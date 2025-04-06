@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { TrailData } from '../context/TrailContext';
 import { Loading } from '../components/Loading';
 import { MdDelete } from "react-icons/md";
@@ -8,7 +8,7 @@ import { FaEdit } from "react-icons/fa";
 const TrailPage = ({user}) => {
     const params = useParams();
 
-    const {loading, fetchTrail, trail, updateTrail, addComment} = TrailData();
+    const {loading, fetchTrail, trail, updateTrail, addComment, deleteComment, deleteTrail} = TrailData();
     // console.log(trail);
 
     const [edit, setEdit] = useState(false);
@@ -30,6 +30,20 @@ const TrailPage = ({user}) => {
     const submitHandler = (e) => {
         e.preventDefault();  // make sure there is no reload
         addComment(trail._id, comment, setComment);
+    }
+
+    const deleteCommentHandler = (id) => {
+        if(confirm("Are you sure you want to delete the comment ?")){
+            deleteComment(trail._id, id);
+        }
+    }
+
+    const navigate = useNavigate();
+
+    const deleteTrailHandler = () => {
+        if(confirm("Are you sure you want to delete the trail?")){
+            deleteTrail(trail._id,navigate);
+        }
     }
 
     useEffect(() => {
@@ -60,7 +74,11 @@ const TrailPage = ({user}) => {
                                     <button onClick={editHandler}><FaEdit /></button>
                                 }
                                 {
-                                    trail.owner && trail.owner._id === user._id && <button className='bg-red-500 text-white py-1 px-3 rounded'><MdDelete/></button>
+                                    trail.owner && trail.owner._id === user._id && 
+                                    <button className='bg-red-500 text-white py-1 px-3 rounded'
+                                    onClick={deleteTrailHandler}>
+                                        <MdDelete/>
+                                    </button>
                                 }
                             </div>
                             {
@@ -116,7 +134,11 @@ const TrailPage = ({user}) => {
                                                     </div>
                                                 </div>
                                                 {
-                                                    e.user === user._id && <button className='bg-red-500 text-white py-1 px-3 rounded'><MdDelete/></button>
+                                                    e.user === user._id && 
+                                                    <button className='bg-red-500 text-white py-1 px-3 rounded mx-4'
+                                                    onClick={()=>deleteCommentHandler(e._id)}>
+                                                        <MdDelete/>
+                                                    </button>
                                                 }
                                             </div>
                                         </div>

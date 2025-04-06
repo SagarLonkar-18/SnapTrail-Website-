@@ -63,11 +63,37 @@ export const TrailProvider = ({children}) => {
         } 
     }
 
+    async function deleteComment(id, commentId){
+        try {
+            const {data} = await axios.delete(`/api/trail/comment/${id}?commentId=${commentId}`);
+            toast.success(data.message);
+            fetchTrail(id);
+        } 
+        catch (error) {
+            toast.error(error.response.data.message);
+        }
+    }
+
+    async function deleteTrail(id, navigate){
+        setLoading(true);
+        try {
+            const {data} = await axios.delete(`/api/trail/${id}`);
+            toast.success(data.message);
+            navigate("/");
+            setLoading(false);
+            fetchTrails();
+        } 
+        catch (error) {
+            toast.error(error.response.data.message);
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         fetchTrails();
     },[]);
 
-    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail, updateTrail, addComment}}>
+    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail, updateTrail, addComment, deleteComment, deleteTrail}}>
         {children}
     </TrailContext.Provider>
 }
