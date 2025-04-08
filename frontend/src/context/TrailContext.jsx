@@ -89,11 +89,30 @@ export const TrailProvider = ({children}) => {
         }
     }
 
+    async function addTrail(formData, setFilePrev, setFile, setTitle, setTrail, navigate){
+        setLoading(true);
+        try {
+            const { data } = await axios.post("/api/trail/new",formData);
+            toast.success(data.message);
+            setFile([]);    
+            setFilePrev("");
+            setTitle("");
+            setTrail("");
+            navigate("/");
+            setLoading(false);
+            fetchTrails();
+        } 
+        catch (error) {
+            toast.error(error.response.data.message);
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         fetchTrails();
     },[]);
 
-    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail, updateTrail, addComment, deleteComment, deleteTrail}}>
+    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail, updateTrail, addComment, deleteComment, deleteTrail, addTrail}}>
         {children}
     </TrailContext.Provider>
 }
