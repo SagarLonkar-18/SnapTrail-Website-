@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../context/UserContext";
 import { LoadingAnimation } from "../components/Loading";
+import { TrailData } from "../context/TrailContext";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -12,9 +13,11 @@ const Register = () => {
   const { registerUser , btnLoading } = UserData();
   const navigate = useNavigate();
 
+  const { fetchTrails } = TrailData();
+
   const submitHandler = (e) => {
     e.preventDefault();
-    registerUser(name, email, password, navigate);
+    registerUser(name, email, password, navigate, fetchTrails);
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

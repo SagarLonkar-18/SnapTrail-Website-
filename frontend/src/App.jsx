@@ -8,6 +8,8 @@ import { Loading } from './components/Loading'
 import Navbar from './components/Navbar'
 import TrailPage from './pages/TrailPage'
 import Create from './pages/Create'
+import Account from './pages/Account'
+import UserProfile from './pages/UserProfile'
 
 const App = () => {
     const {loading, isAuth, user} = UserData();
@@ -19,6 +21,8 @@ const App = () => {
                     {isAuth && <Navbar user={user} />}
                     <Routes>
                         <Route path="/" element={isAuth ? <Home /> : <Login/>} />
+                        <Route path="/account" element={isAuth ? <Account user={user} /> : <Login/>} />
+                        <Route path="/user/:id" element={isAuth ? <UserProfile user={user} /> : <Login/>} />
                         <Route path="/create" element={isAuth ? <Create/> : <Login/>} />
                         <Route path="/trail/:id" element={isAuth ? <TrailPage user={user}/> : <Login/>} />
                         <Route path="/login" element={isAuth ? <Home /> : <Login/>} />

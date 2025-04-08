@@ -112,7 +112,7 @@ export const TrailProvider = ({children}) => {
         fetchTrails();
     },[]);
 
-    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail, updateTrail, addComment, deleteComment, deleteTrail, addTrail}}>
+    return <TrailContext.Provider value={{trails, loading, fetchTrail, trail, updateTrail, addComment, deleteComment, deleteTrail, addTrail, fetchTrails}}>
         {children}
     </TrailContext.Provider>
 }

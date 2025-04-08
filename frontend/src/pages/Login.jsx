@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserData } from "../context/UserContext";
 import { LoadingAnimation } from "../components/Loading";
+import { TrailData } from "../context/TrailContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,9 +11,11 @@ const Login = () => {
   const { loginUser, btnLoading } = UserData();
   const navigate = useNavigate();
 
+  const {fetchTrails} = TrailData();
+
   const submitHandler = (e) => {
     e.preventDefault();
-    loginUser(email, password, navigate);
+    loginUser(email, password, navigate, fetchTrails);
   };
 
   return (

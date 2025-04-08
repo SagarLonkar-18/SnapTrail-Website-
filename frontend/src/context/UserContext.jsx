@@ -9,7 +9,7 @@ export const UserProvider = ({children}) => {
     const [isAuth, setIsAuth] = useState(false)
     const [btnLoading,setBtnLoading] = useState(false);
 
-    async function registerUser(name, email, password, navigate) {
+    async function registerUser(name, email, password, navigate, fetchTrails) {
         setBtnLoading(true);
         try{
             const data = await axios.post("/api/user/register",{name,email,password});
@@ -25,7 +25,7 @@ export const UserProvider = ({children}) => {
         }
     }
 
-    async function loginUser(email, password, navigate) {
+    async function loginUser(email, password, navigate, fetchTrails) {
         setBtnLoading(true);
         try{
             const data = await axios.post("/api/user/login",{email,password});
@@ -61,7 +61,7 @@ export const UserProvider = ({children}) => {
     },[]);
 
     return (
-        <UserContext.Provider value={{loginUser, btnLoading, isAuth, user, loading, registerUser}}>
+        <UserContext.Provider value={{loginUser, btnLoading, isAuth, user, loading, registerUser, setIsAuth, setUser}}>
             {children}
             <Toaster/>
         </UserContext.Provider>
