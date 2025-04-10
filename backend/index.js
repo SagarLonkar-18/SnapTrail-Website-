@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDb from './database/db.js';
 import cookieParser from 'cookie-parser';
 import cloudinary from 'cloudinary';
+import path from 'path';
 
 dotenv.config();
 
@@ -28,6 +29,14 @@ import trailRoutes from './routes/trailRoutes.js';
 // using routes
 app.use("/api/user", userRoutes);
 app.use("/api/trail", trailRoutes);
+
+const __dirname = path.resolve();
+
+app.use(express.static(path.join(__dirname,"/frontend/dist")))
+
+app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname,"frontend","dist","index.html"));
+})
 
 app.listen(port,()=>{
     console.log(`Server is running on port http://localhost:${port}`);
