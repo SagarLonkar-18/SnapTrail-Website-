@@ -93,7 +93,7 @@ const TrailPage = ({user}) => {
                                 <div className='flex items-center justify-between border-b pb-4 mb-4'>
                                     <div className='flex items-center'>
                                         <Link to={`/user/${trail.owner._id}`}>
-                                            <div className='rounded-full h-12 w-12 bg-gray-300 flex items-center justify-center'>
+                                            <div className='rounded-full h-12 w-12 bg-blue-100 flex items-center justify-center'>
                                                 <span className='font-bold'>{trail.owner.name.slice(0,1)}</span>
                                             </div>
                                         </Link>
@@ -105,7 +105,7 @@ const TrailPage = ({user}) => {
                                 </div>
                             }
                             <div className='flex items-center mt-4 '>
-                                <div className='rounded-full h-12 w-12 bg-gray-300 flex items-center justify-center mr-4'>
+                                <div className='rounded-full h-12 w-12 bg-blue-100 flex items-center justify-center mr-4'>
                                     <span className='font-bold'>
                                         {trail.owner && trail.owner.name.slice(0,1)}
                                     </span>
@@ -113,7 +113,7 @@ const TrailPage = ({user}) => {
                                 <form className='flex-1 flex' onSubmit={submitHandler}>
                                     <input type="text" className='flex-1 border rounded-lg p-2' required placeholder='Add comment' 
                                     value={comment} onChange={e=>setComment(e.target.value)}/>
-                                    <button type='submit' className='ml-2 bg-red-500 px-4 py-2 rounded-md text-white'>Add+</button>
+                                    <button type='submit' className='ml-2 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-white'>Add+</button>
                                 </form>
                             </div>
                             <hr className='font-bold text-gray-400 mt-3 mb-3 '/>

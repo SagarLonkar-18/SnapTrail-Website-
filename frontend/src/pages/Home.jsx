@@ -1,29 +1,29 @@
 import { Loading } from "../components/Loading";
 import TrailCard from "../components/TrailCard";
-import { TrailData } from "../context/TrailContext"
+import { TrailData } from "../context/TrailContext";
 
 const Home = () => {
-    const {trails, loading} = TrailData();
-    // console.log(trails);
-    
+    const { trails, loading } = TrailData();
+
     return (
         <div>
-            {
-                loading ? <Loading/> : 
-                <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                    <div className="px-4 py-6 sm:px-0">
-                        <div className="flex flex-wrap m-4">
-                            {
-                                trails && trails.length>0 ? trails.map((e,i)=>(
-                                    <TrailCard key={i} trail={e} />
-                                )) : <p>No Trails Yet</p>
-                            }
-                        </div>
+            {loading ? (
+                <Loading />
+            ) : (
+                <div className="max-w-7xl mx-auto px-4 py-10">
+                    <div className="columns-2 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+                        {trails && trails.length > 0 ? (
+                            trails.map((trail, i) => (
+                                <TrailCard key={i} trail={trail} />
+                            ))
+                        ) : (
+                            <p>No Trails Yet</p>
+                        )}
                     </div>
                 </div>
-            }
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

@@ -51,8 +51,19 @@ export const UserProvider = ({children}) => {
             setLoading(false);
         }
         catch(error){
-            console.log(error);
+            toast.error(error.response.data.message);
             setLoading(false);
+        }
+    }
+
+    async function followUser(id, fetchUser){
+        try {
+            const { data } = await axios.post("/api/user/follow/"+id);
+            toast.success(data.message);
+            fetchUser();
+        } 
+        catch (error) {
+            toast.error(error.response.data.message);
         }
     }
 
@@ -61,9 +72,9 @@ export const UserProvider = ({children}) => {
     },[]);
 
     return (
-        <UserContext.Provider value={{loginUser, btnLoading, isAuth, user, loading, registerUser, setIsAuth, setUser}}>
+        <UserContext.Provider value={{loginUser, btnLoading, isAuth, user, loading, registerUser, setIsAuth, setUser, followUser}}>
             {children}
-            <Toaster/>
+            <Toaster />
         </UserContext.Provider>
     )
 }

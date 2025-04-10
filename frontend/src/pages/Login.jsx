@@ -21,13 +21,13 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <div className="flex justify-center items-center mb-4">
+        <div className="flex justify-center items-center mb-4 gap-3">
           <img
-            className="h-12"
-            src="https://www.iconarchive.com/download/i103380/paomedia/small-n-flat/device-camera.1024.png"
+            className="h-10"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSl9Oqbrl3WfO3ueIICGguflYVtUCQcQE707A&s"
             alt="SnapTrail"
           />
-          {/* <h1 className='font-semibold text-red-500'>SNAPTRAIL</h1> */}
+          <h1 className='text-blue-400 text-2xl font-black'>SNAPTRAIL</h1>
         </div>
         <h2 className="text-2xl font-semibold text-center mb-6">
           Log in to see more
